@@ -11,7 +11,7 @@ type User struct {
 	Name     string    `json:"Name"`
 	Address  string    `json:"Address"`
 	Password string    `json:"Password"`
-	Accounts []Account `json:"Accounts,omitempty" gorm:"foreignKey:AccountNumber"`
+	Accounts []Account `json:"Accounts" gorm:"foreignKey:AccountNumber"`
 }
 
 // Account Model. Has the following fields:  Bank, AccountType, AccountNumber and AccountBalance. Primary field in the DB is ID and cannot be null.
@@ -19,7 +19,7 @@ type Account struct {
 	gorm.Model
 	Bank           string  `json:"Bank"`
 	AccountType    string  `json:"AccountType"`
-	AccountNumber  string  `json:"AccountNumber"`
+	AccountNumber  int     `json:"AccountNumber"`
 	AccountBalance float32 `json:"AccountBalance"`
 }
 
@@ -85,8 +85,8 @@ func UpdateUser(db *gorm.DB, usertoupdate *User) *User {
 }
 
 // function to Update account. Account to update is identified using the Account Number.
-func UpdateAccount(db *gorm.DB, accounttoupdate *Account) *Account {
-
-	db.Where("AccountNumber=?", accounttoupdate.AccountNumber).Find(&accounttoupdate).Model(&accounttoupdate).Updates(map[string]interface{}{"Bank": accounttoupdate.Bank, "AccountType": accounttoupdate.AccountType, "AccountNumber": accounttoupdate.AccountNumber, "AccountBalance": accounttoupdate.AccountBalance})
+func UpdateAccount(db *gorm.DB, accountnumber int) *Account {
+	accounttoupdate := &Account{}
+	db.Where("account_number=?", accountnumber).Model(&accounttoupdate).Updates(map[string]interface{}{"Bank": accounttoupdate.Bank, "AccountType": accounttoupdate.AccountType, "AccountNumber": accounttoupdate.AccountNumber})
 	return accounttoupdate
 }

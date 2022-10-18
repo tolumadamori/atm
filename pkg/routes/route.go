@@ -10,7 +10,7 @@ func Router(r *mux.Router) {
 	r.HandleFunc("/openAccount/", controllers.CreateAccount).Methods("Post") //creates an account
 	r.HandleFunc("/deposit/", controllers.Deposit).Methods("Post")
 	r.HandleFunc("/withdraw/", controllers.Withdraw).Methods("Post")
-	r.HandleFunc("/balance/", controllers.Balance).Methods("Get")
+	r.HandleFunc("/balance/", controllers.Balance).Methods("GET")
 	// r.HandleFunc("/closeaccount/", controllers.CloseAccount).Methods("Post")
 
 }
